@@ -14,5 +14,5 @@ def solve_nqueens():
     return jsonify({'solution':solution_str})
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
