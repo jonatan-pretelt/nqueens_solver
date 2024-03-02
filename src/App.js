@@ -1,25 +1,211 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from "react";
+import queen from './queen.svg';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+export default function App() {
+
+
+  const [inputSize, setInputSize] = useState(0);
+
+
+
+  //initial board
+  const [chessBoard, setChessBoard] = useState([
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]
+  ]);
+
+  const [solution, setSolution] = useState(
+
+
   );
-}
 
-export default App;
+  const [nqueensResult, setNQueensResult] = useState([]);
+
+
+  const handleChange = (event) => {
+
+    if (event.target.value >= 4 & event.target.value <= 12) {
+
+      setInputSize(event.target.value);
+
+    }
+
+    // fetcher();
+    // displayResults();
+    // 
+  };
+
+
+  const handleIncrement = () => {
+    if(inputSize<12){
+    setInputSize(inputSize + 1);
+    }
+
+
+    // 
+  };
+
+  const handleDecrement = () => {
+    if(inputSize>0)
+    setInputSize(inputSize - 1);
+  }
+  // console.log(count);
+  // fetch('/nqueens_solver', {
+  //     method: 'POST',
+  //   headers: {
+  //             'Content-Type': 'application/json',
+  //             'Accept': 'application/json'},
+  //   body: JSON.stringify({ size: inputSize})
+  // }
+  // ).then(response => response.json())
+  // .then(data => {
+
+  //   const solution = JSON.parse(data.solution);
+  //   setSolution(solution);
+
+
+  // }
+  // )
+  // .catch(error => console.log({'Error':error}));
+
+
+  const fetcher = async () => {
+    // console.log(inputSize)
+    if (inputSize>3){
+    const response1 = await fetch('/api/nqueens_solver', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ size: inputSize })
+    }
+    );
+
+    const data = await response1.json();
+    const result = JSON.parse(data.solution);
+    // console.log(typeof(result[0]));
+    // console.log(result);
+    if (result[0] === -1) {
+      alert("There is no solution");
+    } else {
+      setSolution(JSON.parse(data.solution));
+    }
+  }
+    // setSolution(JSON.parse(data.solution));
+  };
+
+
+
+  useEffect(() => {
+    // const result = [];
+
+    // for (let i = 0; i < inputSize; i++) {
+    //   const row = Array.from({ length: inputSize });
+    //   result.push(row);
+    // }
+    // setChessBoard(result);
+
+    fetcher();
+
+
+  }, [inputSize]);
+
+  useEffect(() => {
+    displayResults();
+  }, [solution]);
+
+  const displayResults = () => {
+
+    try {
+      if (solution.length > 0) {
+        // console.log(solution);
+        let _nqueensResult = []
+        for (let i = 0; i < inputSize; i++) {
+          let row = []; // Create an array to hold the boxes for this row
+          for (let j = 0; j < inputSize; j++) {
+            if (solution[i][j] === 1) {
+              row.push(<div key={`${i}-${j}`} className='box queen'>
+                <img src={queen} />
+              </div>);
+            } else if ((i + j) % 2 === 0) {
+              row.push(<div key={`${i}-${j}`} className='box black'></div>);
+            } else if (solution[i][j] === 0) {
+              row.push(<div key={`${i}-${j}`} className='box white'></div>);
+            }
+
+          }
+          // Push the row div containing the boxes for this row into _nqueensResult
+          _nqueensResult.push(<div key={i} className="row">{row}</div>);
+        }
+        // for(let i =0; i<inputSize; i++){
+        //   _nqueensResult.push(<div className="row"></div>)
+        //    for(let j=0;j<inputSize;j++){
+        //    if(solution[i][j] === 1){
+        //     _nqueensResult.push(<div className='box blue'></div>)
+        //    }else if(solution[i][j]==0){
+        //    _nqueensResult.push(<div className='box black'></div>)}}
+        // }
+        setNQueensResult(_nqueensResult);
+      }
+    } catch (error) {
+      //do nothing
+    }
+    return nqueensResult;
+  }
+  // console.log(solution);
+
+  return (
+
+    <>
+      <div className='container'>
+        <h1>Welcome to NQueens Solver!</h1>
+        <form onSubmit={e => { e.preventDefault(); }}>
+          <label htmlFor="inputSize">Board Size</label>
+          {/* <input type="number" id="inputSize" onChange={handleChange} min="4" max="12" ></input> */}
+          <input type="number" id="inputSize" onChange={handleChange} min="4" max="12" value={inputSize} ></input>
+          <button onClick={handleIncrement}>Increment</button>
+          <button onClick={handleDecrement}>Decrement</button>
+          {/* <button>Reset</button> */}
+        </form>
+
+      </div>
+
+
+
+      <div></div>
+
+      {/* empty board */}
+      <div className='chessboard'>
+        {inputSize < 4 && chessBoard.length > 0 && chessBoard.map((row, rIndex) => {
+          return (
+            <div className="row" key={rIndex}>
+              {row.map((_, cIndex) => {
+                return (
+                  <div
+                    className={`box ${(rIndex + cIndex) % 2 === 0 ? "black" : "white"
+                      }`}
+                    key={cIndex}
+                  ></div>
+                );
+              })}
+            </div>
+          );
+        })}
+
+
+
+        {inputSize >= 4 && nqueensResult.length > 0 && nqueensResult.map(
+          box => box
+        )}
+      </div>
+
+    </>
+  )
+
+
+}

@@ -1,38 +1,113 @@
-.App {
-  text-align: center;
+
+
+/* Chrome, Safari, Edge, Opera  hide arrows of input*/
+/* input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} */
+
+/* Firefox */
+/* input[type=number] {
+  -moz-appearance: textfield;
+} */
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.box {
+  width: 50px;
+  height: 50px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+img{
+  width:90%;
+  height:90%;
+}
+
+.black {
+  /* background-color: black; */ 
+  background-color: #403220;
+}
+
+.white {
+  /* background-color: ghostwhite; */
+  background-color: #eab676;
+  
+}
+
+.queen {
+  background-color: gold;
+  
+}
+
+h1 {
+  color: coral;
+}
+.container{
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 50px;
+  margin-left: 50px;
+}
+.container input{
+  background-color: rgb(154, 188, 228);
+  border-radius: 2px;
+  border-width: 1px;
+}
+
+.container label{
+
+  color: coral;
+  margin-right: 10px;
+  
+}
+
+.chessboard{
+  margin-left: 25px;
+  margin-bottom: 25px;
+  margin-right:25px
+}
+
+@media(max-width:1800px){
+  .box{
+    width: 75px;
+    height: 75px;
   }
 }
+
+@media(max-width:1024px){
+  .box{
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media(max-width:768px){
+  .box{
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media(max-width:568px){
+  .box{
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* @media(min-width:568px)
+@media(min-width:768px)
+@media(min-width:1024px)
+@media(min-width:1200px) */
