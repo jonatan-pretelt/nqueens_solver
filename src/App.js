@@ -26,6 +26,11 @@ export default function App() {
   const [nqueensResult, setNQueensResult] = useState([]);
 
 
+ const handleKeyDown = (event) =>{
+  event.preventDefault();
+  return false;
+ }
+    
   const handleChange = (event) => {
 
     if (event.target.value >= 4 & event.target.value <= 12) {
@@ -167,7 +172,7 @@ export default function App() {
         <form onSubmit={e => { e.preventDefault(); }}>
           <label htmlFor="inputSize">Board Size</label>
           {/* <input type="number" id="inputSize" onChange={handleChange} min="4" max="12" ></input> */}
-          <input type="number" id="inputSize" onChange={handleChange} min="4" max="12" value={inputSize} ></input>
+          <input type="number" id="inputSize" onKeyDown={handleKeyDown} onChange={handleChange} min="4" max="12" value={inputSize} ></input>
           <button onClick={handleIncrement}>Increment</button>
           <button onClick={handleDecrement}>Decrement</button>
           {/* <button>Reset</button> */}
