@@ -39,9 +39,6 @@ export default function App() {
 
     }
 
-    // fetcher();
-    // displayResults();
-    // 
   };
 
 
@@ -58,25 +55,7 @@ export default function App() {
     if(inputSize>0)
     setInputSize(inputSize - 1);
   }
-  // console.log(count);
-  // fetch('/nqueens_solver', {
-  //     method: 'POST',
-  //   headers: {
-  //             'Content-Type': 'application/json',
-  //             'Accept': 'application/json'},
-  //   body: JSON.stringify({ size: inputSize})
-  // }
-  // ).then(response => response.json())
-  // .then(data => {
-
-  //   const solution = JSON.parse(data.solution);
-  //   setSolution(solution);
-
-
-  // }
-  // )
-  // .catch(error => console.log({'Error':error}));
-
+  
 
   const fetcher = async () => {
     // console.log(inputSize)
@@ -92,13 +71,16 @@ export default function App() {
     );
 
     const data = await response1.json();
-    const result = JSON.parse(data.solution);
+    const result = data.solution
+    // const result = JSON.parse(data.solution); //c++
     // console.log(typeof(result[0]));
     // console.log(result);
     if (result[0] === -1) {
       alert("There is no solution");
     } else {
-      setSolution(JSON.parse(data.solution));
+      // setSolution(JSON.parse(data.solution)); //c++
+      setSolution(result);
+      // console.log(data.solution)
     }
   }
     // setSolution(JSON.parse(data.solution));
@@ -107,13 +89,6 @@ export default function App() {
 
 
   useEffect(() => {
-    // const result = [];
-
-    // for (let i = 0; i < inputSize; i++) {
-    //   const row = Array.from({ length: inputSize });
-    //   result.push(row);
-    // }
-    // setChessBoard(result);
 
     fetcher();
 
@@ -128,7 +103,7 @@ export default function App() {
 
     try {
       if (solution.length > 0) {
-        // console.log(solution);
+   
         let _nqueensResult = []
         for (let i = 0; i < inputSize; i++) {
           let row = []; // Create an array to hold the boxes for this row
@@ -147,14 +122,7 @@ export default function App() {
           // Push the row div containing the boxes for this row into _nqueensResult
           _nqueensResult.push(<div key={i} className="row">{row}</div>);
         }
-        // for(let i =0; i<inputSize; i++){
-        //   _nqueensResult.push(<div className="row"></div>)
-        //    for(let j=0;j<inputSize;j++){
-        //    if(solution[i][j] === 1){
-        //     _nqueensResult.push(<div className='box blue'></div>)
-        //    }else if(solution[i][j]==0){
-        //    _nqueensResult.push(<div className='box black'></div>)}}
-        // }
+
         setNQueensResult(_nqueensResult);
       }
     } catch (error) {

@@ -12,6 +12,7 @@ env
 
 # production
 /build
+/api/application.py
 
 # misc
 .DS_Store
